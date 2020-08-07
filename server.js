@@ -164,7 +164,8 @@ jwt.sign(payload,
 })
 
  app.get('/recipes', auth, (req, res) => {
-    Recipe.find({}, function(err, recipes){
+     const user = req.user.id
+    Recipe.find({User: user}, function(err, recipes){
         let RecipeMap = {};
 
         recipes.forEach(function(recipe){
@@ -176,7 +177,8 @@ jwt.sign(payload,
 });
 
 app.get('/', auth, (req, res) => {
-    Ingredient.find({}, function(err, ingredients){
+    const user = req.user.id;
+    Ingredient.find({User: user}, function(err, ingredients){
         let IngredientMap = {};
 
         ingredients.forEach(function(ingredient){
@@ -187,29 +189,139 @@ app.get('/', auth, (req, res) => {
     });
 });
 
-app.post('/add_ingredient', auth, (req, res) => {
-    // let vars = req.body;
-    let NewIngredient = new Ingredient(req.body);
-    console.log(req.body + 'hello')
-    NewIngredient.save()
-    .then((data) => {
-        console.log(req.body + 'helloer');
-    })
-    .catch((err) => {
-        console.log(err);
-    })
+app.get("/recipe/:id", async (req, res) => {
+    try {
+        const recipe = await Recipe.findById(req.params.id)
+        res.send(recipe)
+    } catch (err){
+        console.error(err.message);
+        res.status(500).send('Server Error.')
+    }
+
+  })
+
+  app.get("/sum", auth, (req, res) => {
+    const user = req.user.id;
+    Ingredient.find({User: user}, function(err, ingredients){
+        let IngredientMap = {};
+
+        ingredients.forEach(function(ingredient){
+        IngredientMap[ingredient._id] = ingredient;            
+        });
+
+    res.send(IngredientMap);
+    });
+
+    });
+    // Ingredient.findById(user).aggregate(
+    //   [
+    //     {
+    //       $group: 
+    //         {"_id":{"Ingredient": "$Ingredient"},
+    //         "floz" : {
+    //             $sum : "$floz"
+    //         },
+    //         "cup" : {
+    //             $sum : "$cup"
+    //         },
+    //         "tsp" : {
+    //             $sum : "$tsp"
+    //         },
+    //         "tbs" : {
+    //             $sum : "$tbs"
+    //         },
+    //         "ml" : {
+    //             $sum : "$ml"
+    //         },
+    //         "L" : {
+    //             $sum : "$cup"
+    //         },
+    //       }
+    //     }
+    //   ],
+    //   function(err, result) {
+    //     if (err) {
+    //       res.send(err);
+    //     } else {
+    //       res.json(result);
+    //     }
+    //   }
+    // );
+  
+
+app.post('/use_recipe', auth, async(req, res) => {
+
+    try {
+        const user= await User.findById(req.user.id).select('-password');   
+
+        const newIngredient = new Ingredient({
+            Ingredient: req.body.Ingredient,
+            Type: req.body.Type,
+            Amount: req.body.Amount,
+            User: user
+        });
+        
+        const ingredient = await newIngredient.save();
+
+        res.json(ingredient);
+        console.log(req.body)
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error.')
+    }
+
+    
+
 })
 
-app.post('/add_recipe', auth, (req, res) => {
-    let NewRecipe = new Recipe(req.body);
-    console.log(req.body + 'hello')
-    NewRecipe.save()
-    .then((data) => {
-        console.log(req.body + 'helloer');
-    })
-    .catch((err) => {
-        console.log(err);
-    })
+
+
+app.post('/add_ingredient', auth, async(req, res) => {
+
+    try {
+        const user = await User.findById(req.user.id).select('-password');
+
+        const newIngredient = new Ingredient({
+            Ingredient: req.body.ingredient,
+            Type: req.body.type,
+            Amount: req.body.amount,
+            User: user
+        });
+        
+        const ingredient = await newIngredient.save();
+
+        res.json(ingredient);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error.')
+    }
+
+
+})
+
+app.post('/add_recipe', auth, async(req, res) => {
+
+    try {
+        const user = await User.findById(req.user.id).select('-password');
+
+        const newRecipe = new Recipe({
+            Title: req.body.title,
+            Ingredients: req.body.ingredients,
+            Amounts: req.body.amounts,
+            Types: req.body.types,
+            Directions: req.body.directions,
+            User: user
+        });
+        
+        const recipe = await newRecipe.save();
+
+        res.json(recipe);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error.')
+    }
+
+
 })
 
 app.listen(4000, () => {
