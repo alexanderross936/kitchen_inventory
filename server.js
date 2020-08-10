@@ -26,7 +26,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.static(path.join(__dirname, 'frontend/public')));
-app.get('*', function(req, res) {
+app.get('/', function(req, res) {
     res.sendFile('frontend/public/index.html')
 })
 
