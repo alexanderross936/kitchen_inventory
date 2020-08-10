@@ -25,6 +25,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(express.static(path.join(__dirname, 'frontend/public')));
+app.get('*', function(req, res) {
+    res.sendFile('frontend/public/index.html')
+})
 
 app.get('/user', auth, async(req, res) => {
     try {
@@ -176,7 +180,7 @@ jwt.sign(payload,
     });
 });
 
-app.get('/', auth, (req, res) => {
+app.get('/ingredients', auth, (req, res) => {
     const user = req.user.id;
     Ingredient.find({User: user}, function(err, ingredients){
         let IngredientMap = {};
