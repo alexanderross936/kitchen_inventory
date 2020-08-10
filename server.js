@@ -2,6 +2,7 @@ const express = require('express');
 var cors = require('cors')
 const bcrypt = require('bcrypt-nodejs')
 const config = require('config')
+const path = require('path')
 const { check, validationResult } = require("express-validator");
 var mongoose = require('mongoose');
 var mongoDB = 'mongodb://127.0.0.1/one_database';
