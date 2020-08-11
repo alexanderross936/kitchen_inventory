@@ -48,7 +48,7 @@ app.use(express.static(path.join('frontend/build')));
 //     res.sendFile(path.join(__dirname, 'build', 'index.html'))
 // })
 
-app.get('/api/user', auth, async(req, res) => {
+app.get('https://whispering-journey-02450.herokuapp.com/api/user', auth, async(req, res) => {
     try {
         const user = await (await User.findById(req.user.id)).isSelected('-password');
         res.json(user);
