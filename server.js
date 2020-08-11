@@ -25,7 +25,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(express.static('frontend/build'));
+// app.use(express.static(path.join('public' + 'index')));
+app.use(express.static(path.join(__dirname, 'public')));
 // app.use(function (req, res, next) {
 //     res.setHeader('Access-Control-Allow-Origin', '*');
 //     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -35,10 +36,13 @@ app.use(express.static('frontend/build'));
 //     });
 // -app.get('/', function(req, res) {
 //     +app.get('/', function(req, res) {
-//         res.sendFile(path.resolve(__dirname, './frontend/build', 'index.html'))
+//         res.sendFile(path.resolve(__dirname, 'frontend/public'))
 //     });
 // });
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
 
 app.get('/api/user', auth, async(req, res) => {
     try {
