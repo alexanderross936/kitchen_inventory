@@ -11,7 +11,7 @@ class SumIngredients extends React.Component {
     }
 
     componentDidMount(){
-        axios.get('http://localhost:4000/sum')
+        axios.get('http://localhost:4000/api/sum')
         .then(res => {
       this.setState({
         data: res.data

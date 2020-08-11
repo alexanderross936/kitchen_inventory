@@ -39,7 +39,7 @@ class Recipe extends React.Component {
         let j;
         for(j = 0; j < ing_add.length; j++){
             let dat = ing_add[j]
-            axios.post('http://localhost:4000/use_recipe', dat)
+            axios.post('http://localhost:4000/api/use_recipe', dat)
             console.log(dat)
             alert('Recipe ingredients have been subtracted from ingredient list')
         }

@@ -40,7 +40,7 @@ app.use(express.static('frontend/build'));
 // });
 
 
-app.get('/user', auth, async(req, res) => {
+app.get('/api/user', auth, async(req, res) => {
     try {
         const user = await (await User.findById(req.user.id)).isSelected('-password');
         res.json(user);
@@ -50,7 +50,7 @@ app.get('/user', auth, async(req, res) => {
     }
 });
 
-app.post('/register', 
+app.post('/api/register', 
 [
     check('name', 'Name is required').not().isEmpty(),
     check('email', 'Please put valid email').isEmail(),
@@ -118,7 +118,7 @@ jwt.sign(
 
 })
 
-app.post('/login', 
+app.post('/api/login', 
 [
     check('email', 'Please put valid email').isEmail(),
     check('password', 'Password is required')
@@ -177,7 +177,7 @@ jwt.sign(payload,
 
 })
 
- app.get('/recipes', auth, (req, res) => {
+ app.get('/api/recipes', auth, (req, res) => {
      const user = req.user.id
     Recipe.find({User: user}, function(err, recipes){
         let RecipeMap = {};
@@ -190,7 +190,7 @@ jwt.sign(payload,
     });
 });
 
-app.get('/ingredients', auth, (req, res) => {
+app.get('/api/ingredients', auth, (req, res) => {
     const user = req.user.id;
     Ingredient.find({User: user}, function(err, ingredients){
         let IngredientMap = {};
@@ -203,7 +203,7 @@ app.get('/ingredients', auth, (req, res) => {
     });
 });
 
-app.get("/recipe/:id", async (req, res) => {
+app.get("/api/recipe/:id", async (req, res) => {
     try {
         const recipe = await Recipe.findById(req.params.id)
         res.send(recipe)
@@ -214,7 +214,7 @@ app.get("/recipe/:id", async (req, res) => {
 
   })
 
-  app.get("/sum", auth, (req, res) => {
+  app.get("/api/sum", auth, (req, res) => {
     const user = req.user.id;
     Ingredient.find({User: user}, function(err, ingredients){
         let IngredientMap = {};
@@ -263,7 +263,7 @@ app.get("/recipe/:id", async (req, res) => {
     // );
   
 
-app.post('/use_recipe', auth, async(req, res) => {
+app.post('/api/use_recipe', auth, async(req, res) => {
 
     try {
         const user= await User.findById(req.user.id).select('-password');   
