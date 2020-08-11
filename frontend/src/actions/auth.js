@@ -48,7 +48,7 @@ export const register = ({
     const body = JSON.stringify({ name, email, password });
 
     try {
-        const res = await axios.post('http://localhost:4000/api/register', body, config);
+        const res = await axios.post('https://whispering-journey-02450.herokuapp.com/api/register', body, config);
    
         dispatch({
             type: REGISTER_SUCCESS,
@@ -82,7 +82,7 @@ export const login = ( email,
     const body = JSON.stringify({ email, password });
 
     try {
-        const res = await axios.post('http://localhost:4000/api/login', body, config);
+        const res = await axios.post('https://whispering-journey-02450.herokuapp.com/api/login', body, config);
    
         dispatch({
             type: LOGIN_SUCCESS,
