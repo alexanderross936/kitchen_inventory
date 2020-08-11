@@ -18,7 +18,6 @@ const Ingredient = require('./models/Ingredient');
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 
 var db = mongoose.connection;
-
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const app = express();
@@ -26,10 +25,20 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(express.static(path.join(__dirname, 'frontend/public')));
-app.get('/', function(req, res) {
-    res.sendFile('frontend/public/index.html')
-})
+app.use(express.static('frontend/public'));
+// app.use(function (req, res, next) {
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+//     res.setHeader('Access-Control-Allow-Credentials', true);
+//     next();
+//     });
+// -app.get('/', function(req, res) {
+//     +app.get('/', function(req, res) {
+//         res.sendFile(path.resolve(__dirname, './frontend/build', 'index.html'))
+//     });
+// });
+
 
 app.get('/user', auth, async(req, res) => {
     try {
