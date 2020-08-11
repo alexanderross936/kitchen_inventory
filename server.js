@@ -28,6 +28,13 @@ app.use(express.urlencoded());
 // app.use(express.static(path.join('public' + 'index')));
 app.use(express.static(path.join('frontend/build')));
 
+if(process.env.NODE_ENV === 'production'){
+    const path  =  require('path');
+    app.get('/*',(req,res)=>{
+        res.sendfile(path.resolve(__dirname,'frontend','build','index.html'))
+    })
+}
+
 // app.get('/', function(req, res) {
 //     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 // })
