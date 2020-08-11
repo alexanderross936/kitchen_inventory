@@ -20,7 +20,7 @@ export const loadUser = () => async dispatch => {
    }
 
    try {
-       const res = await axios.get('/api/user');
+       const res = await axios.get('https://https://whispering-journey-02450.herokuapp.com/api/user');
         dispatch({
             type: USER_LOADED,
             payload: res.data
