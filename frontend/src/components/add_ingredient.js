@@ -54,7 +54,7 @@ class AddIngredient extends React.Component {
 
     render() {
         return (
-            <div style={{margin: '90px' }}>
+            <div>
                             <form
                             // method="POST" action='http://localhost:4000/add_recipe' 
                             onSubmit={this.handleSubmit}
@@ -65,20 +65,8 @@ class AddIngredient extends React.Component {
             <h3>Amount</h3>
             <input id="amount" name="amount" type="text" value={this.state.amount} onChange={this.handleChangeAmount} />
             <br></br>
-            <h3>Measurement Type:</h3>
-            <br></br>
-            <select id="types" name="types" value={this.state.value} onChange={this.handleChangeType} >
-            <option value="oz">oz</option>
-            <option value="tsp">tsp</option>
-            <option value="floz">floz</option>
-            <option value="L">L</option>
-            <option value="ml">ml</option>
-            <option value="lb">lb</option>
-            <option value="g">g</option>
-            <option value="cup">cup</option>
-            <option value="tbs">tbs</option>
-            </select>
-            <br></br>
+            <h3>Type</h3>
+            <input id="type" name="type" type="type" value={this.state.type} onChange={this.handleChangeType} />
             <br></br>
             <input type='submit' value="Submit Ingredient"/>
           </form>

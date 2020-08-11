@@ -20,7 +20,7 @@ export const loadUser = () => async dispatch => {
    }
 
    try {
-       const res = await axios.get('/api/user');
+       const res = await axios.get('http://localhost:4000/user');
         dispatch({
             type: USER_LOADED,
             payload: res.data
@@ -48,13 +48,13 @@ export const register = ({
     const body = JSON.stringify({ name, email, password });
 
     try {
-        const res = await axios.post('/api/register', body, config);
+        const res = await axios.post('http://localhost:4000/register', body, config);
    
         dispatch({
             type: REGISTER_SUCCESS,
             payload: res.data
         })
-        dispatch(this.loadUser);
+        dispatch(loadUser());
     } catch (err) {
         const errors = err.response.data.errors;
         console.log(errors)
@@ -82,7 +82,7 @@ export const login = ( email,
     const body = JSON.stringify({ email, password });
 
     try {
-        const res = await axios.post('/api/login', body, config);
+        const res = await axios.post('http://localhost:4000/login', body, config);
    
         dispatch({
             type: LOGIN_SUCCESS,

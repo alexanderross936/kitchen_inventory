@@ -8,16 +8,16 @@ class IngredientsList extends React.Component {
         data: []
     }
 
-    // componentDidMount(){
-    //     axios.get('http://localhost:4000/api/')
-    //     .then(res => {
-    //   this.setState({
-    //     data: res.data
-    //   } )
+    componentDidMount(){
+        axios.get('http://localhost:4000/')
+        .then(res => {
+      this.setState({
+        data: res.data
+      } )
 
-    //       })
+          })
 
-    //     }
+        }
         
 
 

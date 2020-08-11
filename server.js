@@ -1,8 +1,7 @@
 const express = require('express');
 var cors = require('cors')
-const bcrypt = require('bcrypt-nodejs')
+const bcrypt = require('bcrypt')
 const config = require('config')
-const path = require('path')
 const { check, validationResult } = require("express-validator");
 var mongoose = require('mongoose');
 var mongoDB = 'mongodb://127.0.0.1/one_database';
@@ -18,6 +17,7 @@ const Ingredient = require('./models/Ingredient');
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 
 var db = mongoose.connection;
+
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const app = express();
@@ -25,37 +25,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
-// app.use(express.static(path.join('public' + 'index')));
-app.use(express.static(path.join('frontend/build')));
 
-if(process.env.NODE_ENV === 'production'){
-    const path  =  require('path');
-    app.get('/*',(req,res)=>{
-        res.sendfile(path.resolve(__dirname,'frontend','build','index.html'))
-    })
-}
-
-// app.get('/', function(req, res) {
-//     res.sendFile(path.join(__dirname, 'build', 'index.html'));
-// })
-// app.use(function (req, res, next) {
-//     res.setHeader('Access-Control-Allow-Origin', '*');
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-//     res.setHeader('Access-Control-Allow-Credentials', true);
-//     next();
-//     });
-// -app.get('/', function(req, res) {
-//     +app.get('/', function(req, res) {
-//         res.sendFile(path.resolve(__dirname, 'frontend/public'))
-//     });
-// });
-
-// app.get('/', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'build', 'index.html'))
-// })
-
-app.get('/api/user', auth, async(req, res) => {
+app.get('/user', auth, async(req, res) => {
     try {
         const user = await (await User.findById(req.user.id)).isSelected('-password');
         res.json(user);
@@ -65,7 +36,7 @@ app.get('/api/user', auth, async(req, res) => {
     }
 });
 
-app.post('/api/register', 
+app.post('/register', 
 [
     check('name', 'Name is required').not().isEmpty(),
     check('email', 'Please put valid email').isEmail(),
@@ -133,7 +104,7 @@ jwt.sign(
 
 })
 
-app.post('/api/login', 
+app.post('/login', 
 [
     check('email', 'Please put valid email').isEmail(),
     check('password', 'Password is required')
@@ -192,7 +163,7 @@ jwt.sign(payload,
 
 })
 
- app.get('/api/recipes', auth, (req, res) => {
+ app.get('/recipes', auth, (req, res) => {
      const user = req.user.id
     Recipe.find({User: user}, function(err, recipes){
         let RecipeMap = {};
@@ -205,7 +176,7 @@ jwt.sign(payload,
     });
 });
 
-app.get('/api/ingredients', auth, (req, res) => {
+app.get('/', auth, (req, res) => {
     const user = req.user.id;
     Ingredient.find({User: user}, function(err, ingredients){
         let IngredientMap = {};
@@ -218,7 +189,7 @@ app.get('/api/ingredients', auth, (req, res) => {
     });
 });
 
-app.get("/api/recipe/:id", async (req, res) => {
+app.get("/recipe/:id", async (req, res) => {
     try {
         const recipe = await Recipe.findById(req.params.id)
         res.send(recipe)
@@ -229,7 +200,7 @@ app.get("/api/recipe/:id", async (req, res) => {
 
   })
 
-  app.get("/api/sum", auth, (req, res) => {
+  app.get("/sum", auth, (req, res) => {
     const user = req.user.id;
     Ingredient.find({User: user}, function(err, ingredients){
         let IngredientMap = {};
@@ -278,7 +249,7 @@ app.get("/api/recipe/:id", async (req, res) => {
     // );
   
 
-app.post('/api/use_recipe', auth, async(req, res) => {
+app.post('/use_recipe', auth, async(req, res) => {
 
     try {
         const user= await User.findById(req.user.id).select('-password');   
@@ -353,6 +324,6 @@ app.post('/add_recipe', auth, async(req, res) => {
 
 })
 
-app.listen(process.env.PORT || 4000, () => {
+app.listen(4000, () => {
     console.log('App listening to you')
 })
