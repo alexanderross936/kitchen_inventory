@@ -43,7 +43,7 @@ class AddIngredient extends React.Component {
             amount: this.state.amount
         }
 
-        axios.post('http://localhost:4000/api/add_ingredient', ingredient)
+        axios.post('http://localhost:4000/add_ingredient', ingredient)
         this.setState({
             ingredient: '',
             type: '',

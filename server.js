@@ -15,7 +15,7 @@ const User = require('./models/User');
 const Recipe = require('./models/Recipe');
 const Ingredient = require('./models/Ingredient');
 mongoose.connect(mongoDB, { useNewUrlParser: true });
-const path = require('path')
+
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -26,9 +26,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 
-
-
-app.get('/api/user', auth, async(req, res) => {
+app.get('/user', auth, async(req, res) => {
     try {
         const user = await (await User.findById(req.user.id)).isSelected('-password');
         res.json(user);
@@ -38,7 +36,7 @@ app.get('/api/user', auth, async(req, res) => {
     }
 });
 
-app.post('/api/register', 
+app.post('/register', 
 [
     check('name', 'Name is required').not().isEmpty(),
     check('email', 'Please put valid email').isEmail(),
@@ -106,7 +104,7 @@ jwt.sign(
 
 })
 
-app.post('/api/login', 
+app.post('/login', 
 [
     check('email', 'Please put valid email').isEmail(),
     check('password', 'Password is required')
@@ -165,7 +163,7 @@ jwt.sign(payload,
 
 })
 
- app.get('/api/recipes', auth, (req, res) => {
+ app.get('/recipes', auth, (req, res) => {
      const user = req.user.id
     Recipe.find({User: user}, function(err, recipes){
         let RecipeMap = {};
@@ -178,7 +176,7 @@ jwt.sign(payload,
     });
 });
 
-app.get('/api', auth, (req, res) => {
+app.get('/', auth, (req, res) => {
     const user = req.user.id;
     Ingredient.find({User: user}, function(err, ingredients){
         let IngredientMap = {};
@@ -191,7 +189,7 @@ app.get('/api', auth, (req, res) => {
     });
 });
 
-app.get("/api/recipe/:id", async (req, res) => {
+app.get("/recipe/:id", async (req, res) => {
     try {
         const recipe = await Recipe.findById(req.params.id)
         res.send(recipe)
@@ -202,7 +200,7 @@ app.get("/api/recipe/:id", async (req, res) => {
 
   })
 
-  app.get("/api/sum", auth, (req, res) => {
+  app.get("/sum", auth, (req, res) => {
     const user = req.user.id;
     Ingredient.find({User: user}, function(err, ingredients){
         let IngredientMap = {};
@@ -278,7 +276,7 @@ app.post('/use_recipe', auth, async(req, res) => {
 
 
 
-app.post('/api/add_ingredient', auth, async(req, res) => {
+app.post('/add_ingredient', auth, async(req, res) => {
 
     try {
         const user = await User.findById(req.user.id).select('-password');
@@ -301,7 +299,7 @@ app.post('/api/add_ingredient', auth, async(req, res) => {
 
 })
 
-app.post('/api/add_recipe', auth, async(req, res) => {
+app.post('/add_recipe', auth, async(req, res) => {
 
     try {
         const user = await User.findById(req.user.id).select('-password');
@@ -326,13 +324,6 @@ app.post('/api/add_recipe', auth, async(req, res) => {
 
 })
 
-if(process.env.NODE_ENV === 'production'){
-    app.use(express.static('frontend/build'));
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
-    })
-}
-
-app.listen(process.env.PORT || 4000, () => {
+app.listen(4000, () => {
     console.log('App listening to you')
 })
