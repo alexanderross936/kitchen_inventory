@@ -26,7 +26,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 
-app.get('http://whispering-journey-02450.herokuapp.com/api/user', auth, async(req, res) => {
+app.get('whispering-journey-02450.herokuapp.com/api/user', auth, async(req, res) => {
     try {
         const user = await (await User.findById(req.user.id)).isSelected('-password');
         res.json(user);
@@ -36,7 +36,7 @@ app.get('http://whispering-journey-02450.herokuapp.com/api/user', auth, async(re
     }
 });
 
-app.post('http://whispering-journey-02450.herokuapp.com/api/register', 
+app.post('whispering-journey-02450.herokuapp.com/api/register', 
 [
     check('name', 'Name is required').not().isEmpty(),
     check('email', 'Please put valid email').isEmail(),
@@ -104,7 +104,7 @@ jwt.sign(
 
 })
 
-app.post('http://whispering-journey-02450.herokuapp.com/api/login', 
+app.post('whispering-journey-02450.herokuapp.com/api/login', 
 [
     check('email', 'Please put valid email').isEmail(),
     check('password', 'Password is required')
