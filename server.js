@@ -15,7 +15,7 @@ const User = require('./models/User');
 const Recipe = require('./models/Recipe');
 const Ingredient = require('./models/Ingredient');
 mongoose.connect(mongoDB, { useNewUrlParser: true });
-
+const path = require('path')
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -25,6 +25,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
+
+
 
 app.get('/user', auth, async(req, res) => {
     try {
@@ -323,6 +325,13 @@ app.post('/add_recipe', auth, async(req, res) => {
 
 
 })
+
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static('frontend/build'));
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+    })
+}
 
 app.listen(process.env.PORT || 4000, () => {
     console.log('App listening to you')
