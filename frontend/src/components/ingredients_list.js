@@ -9,7 +9,7 @@ class IngredientsList extends React.Component {
     }
 
     componentDidMount(){
-        axios.get('http://localhost:4000/')
+        axios.get('http://localhost:4000/api')
         .then(res => {
       this.setState({
         data: res.data

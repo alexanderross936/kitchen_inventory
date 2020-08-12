@@ -28,7 +28,7 @@ app.use(express.urlencoded());
 
 
 
-app.get('/user', auth, async(req, res) => {
+app.get('/api/user', auth, async(req, res) => {
     try {
         const user = await (await User.findById(req.user.id)).isSelected('-password');
         res.json(user);
@@ -38,7 +38,7 @@ app.get('/user', auth, async(req, res) => {
     }
 });
 
-app.post('/register', 
+app.post('/api/register', 
 [
     check('name', 'Name is required').not().isEmpty(),
     check('email', 'Please put valid email').isEmail(),
@@ -106,7 +106,7 @@ jwt.sign(
 
 })
 
-app.post('/login', 
+app.post('/api/login', 
 [
     check('email', 'Please put valid email').isEmail(),
     check('password', 'Password is required')
@@ -165,7 +165,7 @@ jwt.sign(payload,
 
 })
 
- app.get('/recipes', auth, (req, res) => {
+ app.get('/api/recipes', auth, (req, res) => {
      const user = req.user.id
     Recipe.find({User: user}, function(err, recipes){
         let RecipeMap = {};
@@ -178,7 +178,7 @@ jwt.sign(payload,
     });
 });
 
-app.get('/', auth, (req, res) => {
+app.get('/api', auth, (req, res) => {
     const user = req.user.id;
     Ingredient.find({User: user}, function(err, ingredients){
         let IngredientMap = {};
@@ -191,7 +191,7 @@ app.get('/', auth, (req, res) => {
     });
 });
 
-app.get("/recipe/:id", async (req, res) => {
+app.get("/api/recipe/:id", async (req, res) => {
     try {
         const recipe = await Recipe.findById(req.params.id)
         res.send(recipe)
@@ -202,7 +202,7 @@ app.get("/recipe/:id", async (req, res) => {
 
   })
 
-  app.get("/sum", auth, (req, res) => {
+  app.get("/api/sum", auth, (req, res) => {
     const user = req.user.id;
     Ingredient.find({User: user}, function(err, ingredients){
         let IngredientMap = {};
@@ -278,7 +278,7 @@ app.post('/use_recipe', auth, async(req, res) => {
 
 
 
-app.post('/add_ingredient', auth, async(req, res) => {
+app.post('/api/add_ingredient', auth, async(req, res) => {
 
     try {
         const user = await User.findById(req.user.id).select('-password');
@@ -301,7 +301,7 @@ app.post('/add_ingredient', auth, async(req, res) => {
 
 })
 
-app.post('/add_recipe', auth, async(req, res) => {
+app.post('/api/add_recipe', auth, async(req, res) => {
 
     try {
         const user = await User.findById(req.user.id).select('-password');
