@@ -9,7 +9,7 @@ class IngredientsList extends React.Component {
     }
 
     componentDidMount(){
-        axios.get('http://localhost:4000/api')
+        axios.get('https://whispering-journey-02450.herokuapp.com/api')
         .then(res => {
       this.setState({
         data: res.data

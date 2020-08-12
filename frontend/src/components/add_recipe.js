@@ -87,7 +87,7 @@ class AddRecipe extends React.Component {
             directions: this.state.directions
         }
         console.log(post)
-        axios.post('http://localhost:4000/api/add_recipe', post)
+        axios.post('https://whispering-journey-02450.herokuapp.com/api/add_recipe', post)
         let prevState = this.state
         this.setState({
             title: '',
