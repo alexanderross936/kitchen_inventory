@@ -324,13 +324,13 @@ app.post('/api/add_recipe', auth, async(req, res) => {
 
 })
 
-if(process.env.NODE_ENV === 'production'){
-    app.use(express.static('frontend/build'));
+// if(process.env.NODE_ENV === 'production'){
+//     app.use(express.static('frontend/build'));
 
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
-    });
-}
+//     app.get('*', (req, res) => {
+//         res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+//     });
+// }
 
 app.listen(process.env.PORT || 4000, () => {
     console.log('App listening to you')
