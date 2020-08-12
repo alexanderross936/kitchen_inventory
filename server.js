@@ -329,9 +329,9 @@ if(process.env.NODE_ENV === 'production'){
 
     app.get('*', (req, res) => {
         res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
-    })
+    });
 }
 
-app.listen(4000, () => {
+app.listen(process.env.PORT || 4000, () => {
     console.log('App listening to you')
 })
