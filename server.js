@@ -37,18 +37,18 @@ app.get('/api/user', auth, async(req, res) => {
 });
 
 app.post('/api/register', 
-[
-    check('name', 'Name is required').not().isEmpty(),
-    check('email', 'Please put valid email').isEmail(),
-    check('password', 'Please enter a password with 6 or more characters')
-    .isLength({ min: 6 })
-]
-, 
+// [
+//     check('name', 'Name is required').not().isEmpty(),
+//     check('email', 'Please put valid email').isEmail(),
+//     check('password', 'Please enter a password with 6 or more characters')
+//     .isLength({ min: 6 })
+// ]
+// , 
 async (req, res) => {
-    const errors = validationResult(req);
-    if(!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() })
-    }
+    // const errors = validationResult(req);
+    // if(!errors.isEmpty()) {
+    //     return res.status(400).json({ errors: errors.array() })
+    // }
 
     const { name, email, password } = req.body;
     
@@ -84,7 +84,6 @@ const payload = {
 
 jwt.sign(
     payload, 
-    'jwtSecret',
     { expiresIn: 360000 },
     (err, token) => {
         if(err) throw err;
@@ -105,17 +104,17 @@ jwt.sign(
 })
 
 app.post('/api/login', 
-[
-    check('email', 'Please put valid email').isEmail(),
-    check('password', 'Password is required')
-    .exists()
-]
-, 
+// [
+//     check('email', 'Please put valid email').isEmail(),
+//     check('password', 'Password is required')
+//     .exists()
+// ]
+// , 
 async (req, res) => {
-    const errors = validationResult(req);
-    if(!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() })
-    }
+    // const errors = validationResult(req);
+    // if(!errors.isEmpty()) {
+    //     return res.status(400).json({ errors: errors.array() })
+    // }
 
     const { email, password } = req.body;
     
@@ -143,7 +142,7 @@ const payload = {
 }
 
 jwt.sign(payload, 
-    'jwtSecret',
+    config.get('jwtSecret'),
     { expiresIn: 360000 },
     (err, token) => {
         if(err) throw err;
