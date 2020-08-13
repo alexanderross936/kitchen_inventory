@@ -1,4 +1,5 @@
 const express = require('express');
+const connectDB = require('./config/db')
 var cors = require('cors')
 const bcrypt = require('bcrypt')
 const config = require('config')
@@ -10,17 +11,15 @@ require('./models/Ingredient')
 require('./models/Recipe')
 require('./models/User')
 require('./config/default.json')
+require('./config/default.json')
 const auth = require('./frontend/src/middleware/auth')
 const User = require('./models/User');
 const Recipe = require('./models/Recipe');
 const Ingredient = require('./models/Ingredient');
-mongoose.connect(process.env.MONGODB_URI || mongoDB, { useNewUrlParser: true });
-
-var db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const app = express();
+
+connectDB()
 
 app.use(cors());
 app.use(express.json());
@@ -84,6 +83,7 @@ const payload = {
 
 jwt.sign(
     payload, 
+    config.get('jwtSecret'),
     { expiresIn: 360000 },
     (err, token) => {
         if(err) throw err;
