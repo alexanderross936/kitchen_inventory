@@ -5,7 +5,7 @@ require('./default.json')
 
 const connectDB = async() => {
     try {
-        await mongoose.connect(process.env.MONGODB_URI || db, {
+        await mongoose.connect(db, {
             useNewUrlParser: true
         })
         console.log('MongoDB Connected...')
