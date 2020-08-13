@@ -178,21 +178,16 @@ jwt.sign(payload,
     });
 });
 
-app.get('/api'
-, (req, res) => {
-    // const user = req.user.id;
-
-    Ingredient.find({}, function(err, ingredients){
+app.get('/api', auth, (req, res) => {
+    const user = req.user.id;
+    Ingredient.find({User: user}, function(err, ingredients){
         let IngredientMap = {};
 
         ingredients.forEach(function(ingredient){
         IngredientMap[ingredient._id] = ingredient;            
         });
-        if(IngredientsMap.length > 0){
+
     res.send(IngredientMap);
-        } else {
-            res.send('there are not ingredients')
-        }
     });
 });
 
