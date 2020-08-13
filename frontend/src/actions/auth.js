@@ -82,7 +82,7 @@ export const login = ( email,
     const body = JSON.stringify({ email, password });
 
     try {
-        const res = await axios.post('whispering-journey-02450.herokuapp.com//api/login', body, config);
+        const res = await axios.post('whispering-journey-02450.herokuapp.com/api/login', body, config);
    
         dispatch({
             type: LOGIN_SUCCESS,

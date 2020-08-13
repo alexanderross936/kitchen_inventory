@@ -14,7 +14,7 @@ const auth = require('./frontend/src/middleware/auth')
 const User = require('./models/User');
 const Recipe = require('./models/Recipe');
 const Ingredient = require('./models/Ingredient');
-// mongoose.connect(mongoDB, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || mongoDB, { useNewUrlParser: true });
 
 // var db = mongoose.connection;
 
