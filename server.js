@@ -14,11 +14,11 @@ const auth = require('./frontend/src/middleware/auth')
 const User = require('./models/User');
 const Recipe = require('./models/Recipe');
 const Ingredient = require('./models/Ingredient');
-mongoose.connect(mongoDB, { useNewUrlParser: true });
+// mongoose.connect(mongoDB, { useNewUrlParser: true });
 
-var db = mongoose.connection;
+// var db = mongoose.connection;
 
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+// db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const app = express();
 
