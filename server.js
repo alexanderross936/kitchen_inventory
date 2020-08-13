@@ -16,9 +16,9 @@ const Recipe = require('./models/Recipe');
 const Ingredient = require('./models/Ingredient');
 mongoose.connect(process.env.MONGODB_URI || mongoDB, { useNewUrlParser: true });
 
-// var db = mongoose.connection;
+var db = mongoose.connection;
 
-// db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const app = express();
 
