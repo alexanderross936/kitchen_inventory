@@ -37,18 +37,18 @@ app.get('/api/user', auth, async(req, res) => {
 });
 
 app.post('/api/register', 
-// [
-//     check('name', 'Name is required').not().isEmpty(),
-//     check('email', 'Please put valid email').isEmail(),
-//     check('password', 'Please enter a password with 6 or more characters')
-//     .isLength({ min: 6 })
-// ]
-// , 
+[
+    check('name', 'Name is required').not().isEmpty(),
+    check('email', 'Please put valid email').isEmail(),
+    check('password', 'Please enter a password with 6 or more characters')
+    .isLength({ min: 6 })
+]
+, 
 async (req, res) => {
-    // const errors = validationResult(req);
-    // if(!errors.isEmpty()) {
-    //     return res.status(400).json({ errors: errors.array() })
-    // }
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() })
+    }
 
     const { name, email, password } = req.body;
     
@@ -104,23 +104,26 @@ jwt.sign(
 })
 
 app.post('/api/login', 
-// [
-//     check('email', 'Please put valid email').isEmail(),
-//     check('password', 'Password is required')
-//     .exists()
-// ]
-// , 
+[
+    check('email', 'Please put valid email').isEmail(),
+    check('password', 'Password is required')
+    .exists()
+]
+, 
 async (req, res) => {
-    // const errors = validationResult(req);
-    // if(!errors.isEmpty()) {
-    //     return res.status(400).json({ errors: errors.array() })
-    // }
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() })
+    }
 
     const { email, password } = req.body;
+
+    console.log(email)
     
     try {
 // See if user exists
 let user = await User.findOne({ email });
+console.log(user)
 
         if(!user){
     return res.status(400).json({ errors: [{ msg: 'Invalid credentials' }]});
@@ -323,13 +326,13 @@ app.post('/api/add_recipe', auth, async(req, res) => {
 
 })
 
-// if(process.env.NODE_ENV === 'production'){
-//     app.use(express.static('frontend/build'));
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static('frontend/build'));
 
-//     app.get('*', (req, res) => {
-//         res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
-//     });
-// }
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+    });
+}
 
 app.listen(process.env.PORT || 4000, () => {
     console.log('App listening to you')
