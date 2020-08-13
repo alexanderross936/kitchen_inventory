@@ -188,8 +188,11 @@ app.get('/api'
         ingredients.forEach(function(ingredient){
         IngredientMap[ingredient._id] = ingredient;            
         });
-
+        if(IngredientsMap.length > 0){
     res.send(IngredientMap);
+        } else {
+            res.send('there are not ingredients')
+        }
     });
 });
 
