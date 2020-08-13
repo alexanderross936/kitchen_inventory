@@ -178,9 +178,11 @@ jwt.sign(payload,
     });
 });
 
-app.get('/api', auth, (req, res) => {
-    const user = req.user.id;
-    Ingredient.find({User: user}, function(err, ingredients){
+app.get('/api'
+, (req, res) => {
+    // const user = req.user.id;
+
+    Ingredient.find({}, function(err, ingredients){
         let IngredientMap = {};
 
         ingredients.forEach(function(ingredient){
